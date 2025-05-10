@@ -1,41 +1,42 @@
 {
-    "compilerOptions": {
-      /* Base Options: */
-      "esModuleInterop": true,
-      "skipLibCheck": true,
-      "target": "ES2022", // Modern target, tsup can downlevel if needed
-      "allowJs": true,
-      "resolveJsonModule": true,
-      "moduleDetection": "force",
-      "isolatedModules": true,
-      /* Strictness */
-      "strict": true,
-      "noUncheckedIndexedAccess": true, // Recommended for extra safety
-      "checkJs": true,
-      /* Bundled Libraries */
-      "lib": ["dom", "dom.iterable", "esnext"],
-      /* If NOT transpiling with ts */
-      // "module": "preserve", // Handled by tsup
-      // "noEmit": true, // Handled by tsup
-      /* If transpiling with ts */
-      "module": "ESNext", // Use ES Modules for modern output
-      "outDir": "dist", // Output directory (tsup overrides this)
-      "declaration": true, // Generate .d.ts files
-      "declarationMap": true, // Generate sourcemaps for declarations
-      "sourceMap": true, // Generate sourcemaps for JS files
-      /* Module Resolution */
-      "moduleResolution": "Bundler", // Modern module resolution
-      "baseUrl": ".", // Base directory for paths
-      "paths": { // Optional: Define paths for internal imports if needed
-         // "@/components/*": ["./src/components/*"],
-         // "@/hooks/*": ["./src/hooks/*"]
-         // Using relative paths is often simpler in libraries
-      },
-      /* JSX */
-      "jsx": "react-jsx", // Use the new JSX transform
-      /* Output */
-      "declarationDir": "dist/types" // Separate directory for types (optional)
+  "compilerOptions": {
+    /* Base Options: */
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "target": "ES2022", // Modern target, tsup can downlevel if needed
+    "allowJs": true,
+    "resolveJsonModule": true,
+    "moduleDetection": "force",
+    "isolatedModules": true,
+    /* Strictness */
+    "strict": true,
+    "noUncheckedIndexedAccess": true, // Recommended for extra safety
+    "checkJs": true,
+    /* Bundled Libraries */
+    "lib": ["dom", "dom.iterable", "esnext"],
+    /* If NOT transpiling with ts */
+    // "module": "preserve", // Handled by tsup
+    // "noEmit": true, // Handled by tsup
+    /* If transpiling with ts */
+    "module": "ESNext", // Use ES Modules for modern output
+    "outDir": "dist", // Output directory (tsup overrides this)
+    "declaration": true, // Generate .d.ts files
+    "declarationMap": true, // Generate sourcemaps for declarations
+    "sourceMap": true, // Generate sourcemaps for JS files
+    /* Module Resolution */
+    "moduleResolution": "Bundler", // Modern module resolution
+    "baseUrl": ".", // Base directory for paths
+    "paths": {
+      // Optional: Define paths for internal imports if needed
+      // "@/components/*": ["./src/components/*"],
+      // "@/hooks/*": ["./src/hooks/*"]
+      // Using relative paths is often simpler in libraries
     },
-    "include": ["src/**/*.ts", "src/**/*.tsx"], // Files to include in compilation
-    "exclude": ["node_modules", "dist"] // Folders to exclude
-  }
+    /* JSX */
+    "jsx": "react-jsx", // Use the new JSX transform
+    /* Output */
+    "declarationDir": "dist/types" // Separate directory for types (optional)
+  },
+  "include": ["src/**/*.ts", "src/**/*.tsx"], // Files to include in compilation
+  "exclude": ["node_modules", "dist"] // Folders to exclude
+}

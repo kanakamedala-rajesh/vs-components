@@ -1,9 +1,9 @@
-'use client';
+"use client";
 
-import React from 'react';
-import Link from 'next/link';
-import { motion, Target, TargetAndTransition } from 'framer-motion'; // Import Target types
-import clsx from 'clsx';
+import React from "react";
+import Link from "next/link";
+import { motion, Target, TargetAndTransition } from "framer-motion"; // Import Target types
+import clsx from "clsx";
 
 /**
  * Props for the Logo component.
@@ -87,7 +87,7 @@ export const Logo: React.FC<LogoProps> = ({
     y: 0,
     opacity: 1,
     scale: 1,
-    transition: { delay: 0.1, duration: 0.4, type: 'spring', stiffness: 100 }
+    transition: { delay: 0.1, duration: 0.4, type: "spring", stiffness: 100 },
   };
   const defaultHover: TargetAndTransition = {
     scale: 1.15,
@@ -96,7 +96,7 @@ export const Logo: React.FC<LogoProps> = ({
     // Consumer can apply this through `textClassName` or `hoverVariant` if highly specific filter needed.
     // For simplicity here, we'll use a generic shadow or rely on consumer overrides.
     filter: "drop-shadow(0px 0px 6px rgba(99, 102, 241, 0.5))", // Example indigo-like glow
-    transition: { duration: 0.4, type: 'spring', stiffness: 200, damping: 10 },
+    transition: { duration: 0.4, type: "spring", stiffness: 200, damping: 10 },
   };
   const defaultTap: TargetAndTransition = { scale: 1.05 };
 
@@ -109,9 +109,9 @@ export const Logo: React.FC<LogoProps> = ({
           "cursor-pointer transition-colors duration-300 ease-in-out",
           "hover:text-indigo-500 dark:hover:text-indigo-300", // Hover text color change
           "inline-block", // Necessary for some transforms to apply correctly
-           textClassName // Consumer-provided classes for font, text color, etc.
+          textClassName // Consumer-provided classes for font, text color, etc.
         )}
-        style={{ fontVariantLigatures: 'common-ligatures' }} // Optional stylistic choice
+        style={{ fontVariantLigatures: "common-ligatures" }} // Optional stylistic choice
         initial={initialVariant ?? defaultInitial}
         animate={animateVariant ?? defaultAnimate}
         whileHover={hoverVariant ?? defaultHover}

@@ -1,0 +1,108 @@
+name: CI & Release
+
+on:
+  push:
+    branches: [main] # Or your primary branch name e.g., master
+  pull_request:
+    branches: [main] # Or your primary branch name
+  create: # Trigger on tag creation
+    tags:
+      - v*.*.* # Matches tags like v1.0.0, v0.2.1, etc.
+
+jobs:
+  lint-build:
+    name: Lint & Build
+    runs-on: ubuntu-latest
+    # Only run this job for pushes/PRs to main, not for tag events
+    if: github.event_name == 'push' || github.event_name == 'pull_request'
+
+    strategy:
+      matrix:
+        node-version: [18.x, 20.x]
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v4
+        with:
+          node-version: ${{ matrix.node-version }}
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Lint code
+        run: npm run lint
+
+      - name: Build project
+        run: npm run build
+
+      # If you add tests, uncomment and add the test script
+      # - name: Run tests
+      #   run: npm test
+
+  create-github-release:
+    name: Create GitHub Release
+    runs-on: ubuntu-latest
+    # This job only runs when a tag starting with 'v' is pushed
+    if: startsWith(github.ref, 'refs/tags/v')
+    # Does not depend on lint-build for tag pushes, assumes tag is on a validated commit
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0 # Required to access CHANGELOG.md history if needed, though we assume it's current
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20.x" # Or your preferred LTS version
+          cache: "npm"
+
+      # Optional: Install dependencies if any tool is needed to parse changelog (not strictly needed if CHANGELOG.md is just text)
+      # - name: Install dependencies
+      #   run: npm ci
+
+      - name: Extract Release Notes from CHANGELOG.md
+        id: extract_release_notes
+        run: |
+          TAG_NAME="${{ github.ref_name }}"
+          # Remove 'v' prefix from tag to match version number in changelog (e.g., 1.0.0)
+          # standard-version default format: ## [1.0.0](...) (YYYY-MM-DD)
+          VERSION_NUMBER=$(echo "$TAG_NAME" | sed 's/^v//')
+
+          # This awk script extracts notes for the given version.
+          # It starts printing *after* the line containing "## [VERSION_NUMBER]" (or similar)
+          # and stops *before* the next line that starts with "## [" (i.e., the next version section).
+          NOTES=$(awk -v version_pattern="^## \\[$VERSION_NUMBER\\]" '
+            BEGIN {printing=0}
+            $0 ~ version_pattern {printing=1; next}
+            printing && /^## \\[/ {exit}
+            printing {print}
+          ' CHANGELOG.md)
+
+          # Fallback if no specific notes found (e.g., for the very first tag if manual)
+          if [ -z "$NOTES" ]; then
+            NOTES="Release $TAG_NAME"
+          fi
+
+          # Escape special characters for multiline output in GitHub Actions
+          NOTES="${NOTES//'%'/'%25'}"
+          NOTES="${NOTES//$'\n'/'%0A'}"
+          NOTES="${NOTES//$'\r'/'%0D'}"
+          echo "notes=${NOTES}" >> "$GITHUB_OUTPUT"
+        shell: bash
+
+      - name: Create GitHub Release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: ${{ github.ref_name }}
+          release_name: Release ${{ github.ref_name }}
+          body: ${{ steps.extract_release_notes.outputs.notes }}
+          draft: false
+          prerelease: false # Set to true if it's a pre-release (e.g., v1.0.0-beta.1)

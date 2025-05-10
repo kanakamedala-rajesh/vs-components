@@ -8,25 +8,25 @@ A production-ready, animated, and responsive components system for React/Next.js
 
 ## Features
 
-* Responsive design (Desktop menu, Mobile popover with hamburger).
+- Responsive design (Desktop menu, Mobile popover with hamburger).
 
-* Smooth glassmorphism effect transition on scroll.
+- Smooth glassmorphism effect transition on scroll.
 
-* Hide/show navbar on scroll down/up.
+- Hide/show navbar on scroll down/up.
 
-* Configurable scrollspy for active section highlighting.
+- Configurable scrollspy for active section highlighting.
 
-* Performant animations using Framer Motion.
+- Performant animations using Framer Motion.
 
-* Integrated Dark Mode toggle (requires `next-themes`).
+- Integrated Dark Mode toggle (requires `next-themes`).
 
-* Accessible: Keyboard navigation, focus trapping, focus restoration, ARIA attributes.
+- Accessible: Keyboard navigation, focus trapping, focus restoration, ARIA attributes.
 
-* Customizable: Pass your own Logo or DarkModeToggle components, override styles via classNames.
+- Customizable: Pass your own Logo or DarkModeToggle components, override styles via classNames.
 
-* Built with TypeScript.
+- Built with TypeScript.
 
-* Requires consumer-side Tailwind CSS setup.
+- Requires consumer-side Tailwind CSS setup.
 
 ## Installation
 
@@ -44,23 +44,23 @@ yarn  add  @venkatasudha/components
 
 You must have the following packages installed in your project:
 
-* react >= 18
+- react >= 18
 
-* react-dom >= 18
+- react-dom >= 18
 
-* next >= 14 (for next/link, next/font if used in your app)
+- next >= 14 (for next/link, next/font if used in your app)
 
-* framer-motion >= 10
+- framer-motion >= 10
 
-* lucide-react >= 0.300
+- lucide-react >= 0.300
 
-* next-themes >= 0.3
+- next-themes >= 0.3
 
-* tailwindcss >= 3
+- tailwindcss >= 3
 
 Install them if you haven't already:
 
-``` bash
+```bash
 npm install react react-dom next framer-motion lucide-react next-themes tailwindcss
 
 or
@@ -82,43 +82,33 @@ Configure content: Ensure your tailwind.config.js (or .ts) content array include
 /** @type {import('tailwindcss').Config} */
 
 module.exports = {
+  // Ensure darkMode is set to 'class' if using the DarkModeToggle
 
-// Ensure darkMode is set to 'class' if using the DarkModeToggle
+  darkMode: "class",
 
-darkMode: 'class',
+  content: [
+    "./app/**/*.{js,ts,jsx,tsx,mdx}", // Include mdx if used
 
-content: [
+    "./pages/**/*.{js,ts,jsx,tsx,mdx}",
 
-'./app/**/*.{js,ts,jsx,tsx,mdx}', // Include mdx if used
+    "./components/**/*.{js,ts,jsx,tsx,mdx}",
 
-'./pages/**/*.{js,ts,jsx,tsx,mdx}',
+    // If library is in node_modules AND its source files contain Tailwind classes
 
-'./components/**/*.{js,ts,jsx,tsx,mdx}',
+    // that aren't reflected in YOUR usage, you might need this:
 
-// If library is in node_modules AND its source files contain Tailwind classes
+    // './node_modules/@venkatasudha/components/dist/**/*.{js,mjs}', // Check if necessary
+  ],
 
-// that aren't reflected in YOUR usage, you might need this:
+  theme: {
+    extend: {
+      // Extend theme here if needed
+    },
+  },
 
-// './node_modules/@venkatasudha/components/dist/**/*.{js,mjs}', // Check if necessary
-
-],
-
-theme: {
-
-extend: {
-
-// Extend theme here if needed
-
-},
-
-},
-
-plugins: [
-
-// Add Tailwind plugins here if needed by your app (e.g., require('@tailwindcss/forms'))
-
-],
-
+  plugins: [
+    // Add Tailwind plugins here if needed by your app (e.g., require('@tailwindcss/forms'))
+  ],
 };
 ```
 
@@ -128,13 +118,12 @@ plugins: [
 
 Your application needs to be wrapped in the ThemeProvider from next-themes. The NavBar library also relies on Radix UI Tooltip, so wrap your app in <TooltipProvider> as well.
 
-
-``` Tsx
+```Tsx
 // app/providers.tsx (Example)
 
 'use client';
 
-  
+
 
 import * as React from 'react';
 
@@ -144,7 +133,7 @@ import { type ThemeProviderProps } from 'next-themes/dist/types';
 
 import { TooltipProvider } from '@radix-ui/react-tooltip'; // Import from Radix directly
 
-  
+
 
 export function AppProviders({ children }: { children: React.ReactNode }) {
 
@@ -176,7 +165,7 @@ disableTransitionOnChange  //  Recommended  for  smoother  Framer  Motion  anima
 
 }
 
-  
+
 
 // app/layout.tsx
 
@@ -190,8 +179,8 @@ import { Inter } from 'next/font/google';
 
 const inter = Inter({ subsets: ['latin'] });
 
-  
-  
+
+
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 
@@ -217,7 +206,7 @@ return (
 
 Import and use the NavBar component in your layout or page structure. Ensure the main content area has appropriate top padding to avoid being obscured by the fixed NavBar.
 
-``` Tsx
+```Tsx
 // components/layout/Header.tsx (Example wrapper in your app)
 
 'use client'; // If it uses client-side logic or hooks
@@ -242,7 +231,7 @@ const menuItemsData: MenuItem[] = [
 
 ];
 
-  
+
 
 export default function Header() {
 
@@ -284,7 +273,7 @@ textClassName:  'font-playfair'  //  Example:  Apply  a  custom  font  class  de
 
 }
 
-  
+
 
 // app/layout.tsx (Using the Header)
 
@@ -294,7 +283,7 @@ import Footer from '@/components/layout/Footer'; // Your footer component
 
 // ... other imports
 
-  
+
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
 
@@ -342,7 +331,7 @@ return (
 
 </section>
 
-  
+
 
 {children} {/* Other page content */}
 
@@ -365,10 +354,10 @@ return (
 
 You can also import and use Logo and DarkModeToggle separately if needed.
 
-``` Tsx
+```Tsx
 import { Logo, DarkModeToggle } from '@venkatasudha/components';
 
-  
+
 
 function MyOtherComponent() {
 
@@ -397,16 +386,16 @@ className="mr-4"  //  Add  margin
 
 ### 4. Using the useScrollspy Hook
 
-``` Tsx
+```Tsx
 'use client'; // Hook requires client-side execution
 
-  
+
 
 import React, { useEffect } from 'react';
 
 import { useScrollspy } from '@venkatasudha/components';
 
-  
+
 
 function MyTrackingComponent() {
 
@@ -420,7 +409,7 @@ rootMargin: '-30% 0px -70% 0px' // Adjust trigger point
 
 });
 
-  
+
 
 useEffect(() => {
 
@@ -434,7 +423,7 @@ console.log("Currently active section:", activeId);
 
 }, [activeId]);
 
-  
+
 
 return (
 
@@ -449,39 +438,57 @@ Active: {activeId || 'None'}
 }
 ```
 
+## Available Scripts
+
+In the project directory, you can run:
+
+- `npm run dev`: Runs the app in development mode using `tsup` with watch mode.
+- `npm run build`: Builds the library for production to the `dist` folder.
+- `npm run lint`: Lints the codebase using ESLint.
+- `npm run lint:fix`: Lints the codebase and attempts to fix issues automatically.
+- `npm run format`: Checks for formatting issues using Prettier.
+- `npm run format:fix`: Formats the codebase using Prettier.
+- `npm run clean`: Removes the `dist` directory.
+- `npm run commit`: Starts Commitizen to help create conventional commit messages.
+- `npm run release`: Creates a new release (bumps version, generates changelog, creates git tag).
+- `npm run release:patch`: Forces a patch release.
+- `npm run release:minor`: Forces a minor release.
+- `npm run release:major`: Forces a major release.
+- `npm run release:first`: For creating the very first release of the project.
+
 ## Component Props
 
 ### `<NavBar>`
 
-| Prop                    | Type                           | Default                    | Description                                                                         |
-| :---------------------- | :----------------------------- | :------------------------- | :---------------------------------------------------------------------------------- |
-| `menuItems`             | `MenuItem[]`                   | **Required**               | Array of menu item objects (`{ name: string, href: string }`).                      |
-| `logoComponent`         | `React.ReactNode`              | `undefined`                | Optional custom Logo component. Ignores `logoProps` if provided.                    |
-| `logoProps`             | `LogoProps`                    | `undefined`                | Props for the default `Logo` component (see LogoProps below).                      |
-| `darkModeToggleComponent` | `React.ReactNode`              | `undefined`                | Optional custom DarkModeToggle component.                                           |
-| `className`             | `string`                       | `''`                       | Additional classes for the main `<header>` element.                                 |
-| `containerClassName`    | `string`                       | `''`                       | Additional classes for the inner container `div`.                                   |
-| `mobilePopoverClassName`| `string`                       | `''`                       | Additional classes for the mobile menu popover `div`.                             |
-| `desktopItemClassName`  | `string`                       | `''`                       | Additional classes for desktop menu item wrapper `div`s.                            |
-| `desktopLinkClassName`  | `string`                       | `''`                       | Additional classes for desktop menu `<a>` tags.                                     |
-| `mobileItemClassName`   | `string`                       | `''`                       | Additional classes for mobile menu item wrapper `div`s.                             |
-| `mobileLinkClassName`   | `string`                       | `''`                       | Additional classes for mobile menu `<a>` tags.                                      |
-| `scrollThreshold`       | `number`                       | `0`                        | Scroll pixels when background transition starts.                                    |
-| `scrollTransitionRange` | `number`                       | `100`                      | Scroll pixels over which the background transition occurs.                          |
-| `enableScrollspy`       | `boolean`                      | `true`                     | Enable/disable automatic active section highlighting.                               |
-| `scrollspyRootMargin`   | `string`                       | `'-20% 0px -80% 0px'`      | `rootMargin` for scrollspy IntersectionObserver.                                    |
+| Prop                      | Type              | Default               | Description                                                      |
+| :------------------------ | :---------------- | :-------------------- | :--------------------------------------------------------------- |
+| `menuItems`               | `MenuItem[]`      | **Required**          | Array of menu item objects (`{ name: string, href: string }`).   |
+| `logoComponent`           | `React.ReactNode` | `undefined`           | Optional custom Logo component. Ignores `logoProps` if provided. |
+| `logoProps`               | `LogoProps`       | `undefined`           | Props for the default `Logo` component (see LogoProps below).    |
+| `darkModeToggleComponent` | `React.ReactNode` | `undefined`           | Optional custom DarkModeToggle component.                        |
+| `className`               | `string`          | `''`                  | Additional classes for the main `<header>` element.              |
+| `containerClassName`      | `string`          | `''`                  | Additional classes for the inner container `div`.                |
+| `mobilePopoverClassName`  | `string`          | `''`                  | Additional classes for the mobile menu popover `div`.            |
+| `desktopItemClassName`    | `string`          | `''`                  | Additional classes for desktop menu item wrapper `div`s.         |
+| `desktopLinkClassName`    | `string`          | `''`                  | Additional classes for desktop menu `<a>` tags.                  |
+| `mobileItemClassName`     | `string`          | `''`                  | Additional classes for mobile menu item wrapper `div`s.          |
+| `mobileLinkClassName`     | `string`          | `''`                  | Additional classes for mobile menu `<a>` tags.                   |
+| `scrollThreshold`         | `number`          | `0`                   | Scroll pixels when background transition starts.                 |
+| `scrollTransitionRange`   | `number`          | `100`                 | Scroll pixels over which the background transition occurs.       |
+| `enableScrollspy`         | `boolean`         | `true`                | Enable/disable automatic active section highlighting.            |
+| `scrollspyRootMargin`     | `string`          | `'-20% 0px -80% 0px'` | `rootMargin` for scrollspy IntersectionObserver.                 |
 
-*(Note: `MenuItem` type is `{ name: string, href: string }`)*
-*(Note: `LogoProps` type is defined below)*
+_(Note: `MenuItem` type is `{ name: string, href: string }`)_
+_(Note: `LogoProps` type is defined below)_
 
 ### `<Logo>` (Used via `logoProps` in `<NavBar>` or directly)
 
-| Prop            | Type              | Default   | Description                                                            |
-| :-------------- | :---------------- | :-------- | :--------------------------------------------------------------------- |
-| `initials`      | `string`          | `'RK'`    | The initials to display.                                               |
-| `href`          | `string`          | `'/'`     | The URL the logo links to.                                             |
-| `className`     | `string`          | `''`      | Additional classes for the outer `<a>` tag wrapper.                   |
-| `textClassName` | `string`          | `''`      | Additional classes for the inner `<span>` tag (for font/text styling). |
+| Prop            | Type     | Default | Description                                                            |
+| :-------------- | :------- | :------ | :--------------------------------------------------------------------- |
+| `initials`      | `string` | `'RK'`  | The initials to display.                                               |
+| `href`          | `string` | `'/'`   | The URL the logo links to.                                             |
+| `className`     | `string` | `''`    | Additional classes for the outer `<a>` tag wrapper.                    |
+| `textClassName` | `string` | `''`    | Additional classes for the inner `<span>` tag (for font/text styling). |
 
 ### `<DarkModeToggle>`
 
@@ -496,7 +503,51 @@ This component currently takes no props. It relies entirely on the `next-themes`
 
 **Returns:**
 
-* `string | null` - The ID (without '#') of the currently active element, or `null`.
+- `string | null` - The ID (without '#') of the currently active element, or `null`.
+
+## Releasing and Versioning
+
+This project uses [standard-version](https://github.com/conventional-changelog/standard-version) to automate versioning and changelog generation, following [Semantic Versioning](https://semver.org/) principles. Commit messages must follow the [Conventional Commits](https://www.conventionalcommits.org/) specification (enforced by `commitlint` and `husky`).
+
+### Creating a Release Manually
+
+1.  Ensure your working directory is clean (no uncommitted changes).
+2.  Make sure all desired changes have been committed using conventional commit messages (e.g., via `npm run commit`).
+3.  Run the appropriate release script:
+    - For the very first release of the project:
+      ```bash
+      npm run release:first
+      ```
+    - For subsequent releases (this will automatically determine if it's a patch, minor, or major bump based on your commits):
+      ```bash
+      npm run release
+      ```
+    - To explicitly force a specific type of release:
+      ```bash
+      npm run release:patch
+      npm run release:minor
+      npm run release:major
+      ```
+4.  This process will:
+    - Analyze commits since the last tag.
+    - Determine the new version number.
+    - Update the `version` in `package.json` and `package-lock.json`.
+    - Generate or update the `CHANGELOG.md` file.
+    - Commit these changes (`chore(release): vX.Y.Z`).
+    - Create a new Git tag (e.g., `vX.Y.Z`).
+5.  After the script completes, push the changes and the new tag to GitHub:
+    ```bash
+    git push --follow-tags origin main # Replace 'main' with your primary branch name if different
+    ```
+6.  Pushing a new tag (e.g., `v1.2.3`) to GitHub will automatically trigger a GitHub Action to create a corresponding GitHub Release with notes from the `CHANGELOG.md`.
+7.  (Optional) If you intend to publish to the npm registry:
+    ```bash
+    npm publish
+    ```
+
+### Changelog
+
+A `CHANGELOG.md` file is automatically generated and updated in the root of the project with each release. It lists the changes, categorized by type (features, fixes, etc.), for each version.
 
 ## Contributing
 

@@ -2,6 +2,7 @@ import js from "@eslint/js";
 import globals from "globals";
 import tseslint from "typescript-eslint";
 import pluginReact from "eslint-plugin-react";
+import eslintConfigPrettier from "eslint-config-prettier";
 
 export default tseslint.config(
   {
@@ -15,6 +16,20 @@ export default tseslint.config(
   },
   js.configs.recommended, // ESLint's recommended JavaScript rules for .js files
 
+  // Configuration for CommonJS JavaScript configuration files (e.g., commitlint.config.js)
+  {
+    files: [
+      "*.config.js", // Targets files like commitlint.config.js, postcss.config.js, etc. at the root
+      "*.config.cjs", // Also target .cjs config files
+    ],
+    languageOptions: {
+      sourceType: "commonjs", // Specify that these are CommonJS modules
+      globals: {
+        ...globals.node, // Provide Node.js global variables (module, require, exports, __dirname, etc.)
+      },
+    },
+  },
+
   // Base TypeScript configuration for all .ts, .tsx, .mts, .cts files
   // This applies rules that DO NOT require type information.
   // It will cover files like tsup.config.ts and files in src.
@@ -27,11 +42,12 @@ export default tseslint.config(
       ...tseslint.configs.recommended,
     ],
     languageOptions: {
-      globals: { // Define globals available in these files
+      globals: {
+        // Define globals available in these files
         ...globals.browser, // For client-side TS/TSX in src
-        ...globals.node,    // For config files like tsup.config.ts
-      }
-    }
+        ...globals.node, // For config files like tsup.config.ts
+      },
+    },
   },
 
   // Type-aware linting for src files ONLY
@@ -64,6 +80,7 @@ export default tseslint.config(
       // Example: If using React 17+ new JSX transform, you might not need 'React' in scope
       // "react/react-in-jsx-scope": "off",
       // Add any other React specific rule overrides here
-    }
-  }
+    },
+  },
+  eslintConfigPrettier // <-- Add this as the last configuration
 );
