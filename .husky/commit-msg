@@ -1,1 +1,10 @@
+echo "Running commit-msg hook"
+
+# Run commitlint on the commit message file
+# The --no option prevents npx from installing the package if it's not already installed
+# The --edit option tells commitlint to lint the commit message file
+# The "$1" argument is the path to the commit message file
+# The commit message file is passed as the first argument to the script
+# The commit message file is usually located at .git/COMMIT_EDITMSG
+# The commit message file is passed to the script as the first argument
 npx --no -- commitlint --edit "$1"

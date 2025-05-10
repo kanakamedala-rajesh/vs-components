@@ -1,1 +1,4 @@
+echo "Running pre-commit hook"
+# Run lint-staged on the staged files
+echo "Running lint-staged on staged files"
 npx lint-staged

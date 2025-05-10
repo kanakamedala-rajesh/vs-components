@@ -1,2 +1,13 @@
+echo "Running pre-push hook..."
+
+# Run tests
+# echo "Running tests..."
+# npm run test
+
+# Run linting
+echo "Running linting..."
 npm run lint
+
+# Run build
+echo "Running build..."
 npm run build

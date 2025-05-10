@@ -74,6 +74,9 @@
   "config": {
     "commitizen": {
       "path": "./node_modules/cz-emoji"
+    },
+    "cz-emoji": {
+      "conventional": true
     }
   },
   "lint-staged": {
